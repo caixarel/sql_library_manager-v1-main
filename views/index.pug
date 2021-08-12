@@ -2,11 +2,11 @@ extends layout.pug
 
 block content
     h1 Books
-    form(action=`/search` method='post') 
+    form(action=`/search/page/1` method='get') 
         input(name='search' type='text' placeholder="search book")
         input#search(type='submit' value='Search')
     p
-        a.button(href='books/new') Create New Book
+        a.button(href='/books/new') Create New Book
     table
         thead
             tr
@@ -15,12 +15,24 @@ block content
             th Genre
             th Year
         tbody
-            each book in books
-                tr
-                    td
-                        a(href=`books/${book.id}`)=book.title
-                    td=book.author
-                    td=book.genre
-                    td=book.year
+            -   for (var j=(page-1)*10;j<(page*10);j++)
+                if j+1>books.length
+                    -break 
+                else  
+                    tr
+                        td
+                            a(href=`/books/${books[j].id}`)=books[j].title
+                        td=books[j].author
+                        td=books[j].genre
+                        td=books[j].year
+    if  query
+        -   for (var i=0;i<numberOfPages;i++)
+            a(href=`/search/page/${i+1}?search=${query}` id="pageButton" style=`position: absolute;bottom: 150px;left: ${50+i*20}px;`)=i+1
+        a(href=`/` id="HomeButton") Show all books
+
+    else
+        -   for (var i=0;i<numberOfPages;i++)
+            a(href=`/books/page/${i+1}` id="pageButton" style=`position: absolute;bottom: 150px;left: ${50+i*40}px;`)=i+1
+      
     
             

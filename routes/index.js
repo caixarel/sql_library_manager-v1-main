@@ -2,42 +2,50 @@ var express = require('express');
 var router = express.Router();
 const Book = require('../models').Book;
 const { Op } = require("sequelize");
+
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-    res.redirect('/books');
+    res.redirect('/books/page/1');
 });
+
 //Show the home page containing all the books
-router.get('/books', async function(req, res, next) {
+router.get('/books/page/:id', async function(req, res, next) {
   //Retrieve array with all books from the database, then on the template
   //iterate over the array to create a link to every book
   const books= await Book.findAll();
-  res.render('index',{books});
+  let numberOfPages=Math.ceil(books.length/10);
+  const page=req.params.id;
+  res.render('index',{books,numberOfPages,page});
 });
 
-router.post('/search', async function(req, res, next) {
-
+//search function using pagination
+router.get('/search/page/:id', async function(req, res, next) {
+  var query = req.query.search
   const books = await Book.findAll({
     attributes:['id','title','author','genre','year'],
     where:{
       [Op.or]:[{
         title:{
-          [Op.like]:`%${req.body.search}%`}},
+          [Op.like]:`%${query}%`}},
         {
         author:{
-          [Op.like]:`%${req.body.search}%`}},
+          [Op.like]:`%${query}%`}},
         {
         genre:{
-          [Op.like]:`%${req.body.search}%`}},
+          [Op.like]:`%${query}%`}},
         {
         year:{
-          [Op.like]:`%${req.body.search}%`}}
+          [Op.like]:`%${query}%`}}
       ]
       }
-      
   })
-  console.log(books.dataValues)
-  res.render('index',{books});
+  //calculation to find the necessary number of pages
+  let numberOfPages=Math.ceil(books.length/10);
+  const page=req.params.id;
+  res.render('index',{books,numberOfPages,page,query});
 });
+
+
 
 
 
@@ -45,7 +53,6 @@ router.post('/search', async function(req, res, next) {
 router.get('/books/new', async function(req, res, next) {
   res.render('new-book');
 });
-//create a new book
 router.post('/books/new', async function(req, res, next) {
   try{
     //creates a new book using the data from a form

@@ -23,7 +23,47 @@ body {
     border-radius: 2px;
     cursor: pointer;
   }
-  
+  #search{
+    color: white;
+    background: #019875;
+    font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 10px 14px 12px;
+    font-size: 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: 0.4s;
+    margin-left: 0px;
+  }
+  #search:hover{
+    background-color: #01b189;
+  }
+  #pageButton{
+    color: white;
+    background: #019875;
+    font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 10px 14px 12px;
+    font-size: 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: 0.4s;
+    margin-left: 10px;
+  }
+
+  #HomeButton{
+    color: white;
+    background: #019875;
+    font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 10px 14px 12px;
+    font-size: 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: 0.4s;
+    margin-left: 10px;
+    position: absolute;
+    bottom: 40px;
+    left: 50px;
+  }
+
   form a.button, input[type=submit] {
     margin-left: 140px;
     transition: 0.4s;
@@ -32,6 +72,7 @@ body {
   input[type=submit] {
     border: 0;
   }
+
   
     a.button:hover, input[type=submit]:hover {
       background-color: #01b189;
